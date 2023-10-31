@@ -1,7 +1,7 @@
 import sqlite3
 from typing import List as ListType
 
-con = sqlite3.connect("tasks.db")
+con = sqlite3.connect("mvc.db")
 
 
 def sql_stringify(x: str) -> str:

@@ -27,8 +27,8 @@ class TasksModel:
                 description TEXT,
                 completed BOOLEAN NOT NULL DEFAULT FALSE,
                 list_id INTEGER NOT NULL,
-                FOREIGN KEY(list_id) REFERENCES lists(id),
                 parent_id INTEGER,
+                FOREIGN KEY(list_id) REFERENCES lists(id),
                 FOREIGN KEY(parent_id) REFERENCES tasks(id)
                    )
             """
@@ -54,8 +54,8 @@ class TasksModel:
 
         return Task(*created_task)
 
-    def get_all(self) -> ListType[Task]:
-        sql = "SELECT * FROM " + self.table_name
+    def get_all_for_list(self, list_id: int) -> ListType[Task]:
+        sql = "SELECT * FROM " + self.table_name + " WHERE list_id = " + str(list_id)
         tasks = self.cursor.execute(sql).fetchall()
         con.commit()
 
