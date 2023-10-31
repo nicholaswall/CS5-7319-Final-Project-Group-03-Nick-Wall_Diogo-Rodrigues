@@ -7,7 +7,7 @@ from typing import List as ListType, Optional
 class Task:
     id: int
     title: str
-    desciption: str
+    description: str
     completed: bool
     list_id: int
     parent_id: int
@@ -33,7 +33,6 @@ class TasksModel:
                    )
             """
         )
-        print("Creating table: ", sql)
         self.cursor.execute(sql)
 
     def create(

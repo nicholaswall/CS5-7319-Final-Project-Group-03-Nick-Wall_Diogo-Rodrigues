@@ -19,7 +19,6 @@ class ListsModel:
             + self.table_name
             + " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"
         )
-        print("Creating table: ", sql)
         self.cursor.execute(sql)
 
     def create(self, name: str) -> List:

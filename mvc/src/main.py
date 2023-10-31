@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from mvc.src.controllers.lists import ListsController
+from mvc.src.controllers.tasks import TasksController
 
 
 if __name__ == "__main__":
@@ -44,21 +45,17 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     sub_parser_name = args.command
-    print("Sub parser name: ", sub_parser_name)
-    print("Args: ", args)
 
     if sub_parser_name == "list":
         list_command = args.list_command
-        print("List command: ", list_command)
         if list_command == "create":
             ListsController().create()
         elif list_command == "display":
             ListsController().display()
     elif sub_parser_name == "task":
         task_command = args.task_command
-        print("Task command: ", task_command)
         if task_command == "create":
-            print("Create task")
+            TasksController().create()
         elif task_command == "toggle":
             print("Toggle task completion")
 

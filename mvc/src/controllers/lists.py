@@ -25,16 +25,11 @@ class ListsController(Controller):
         view = DisplayListPromptView()
         filter = view.render()
         lists: ListType[List] = self.lists_model.get_all()
-        print("got lists", lists)
         if filter != "":
-            print("filtering lists", filter)
-            lists = [list for list in lists if list.name == filter]
+            lists = [list for list in lists if filter in list.name]
         lists_tasks: ListType[ListTasks] = [
             ListTasks(list, self.tasks_model.get_all_for_list(list.id))
             for list in lists
         ]
-
-        print("got lists_tasks", lists_tasks)
-
         view = DisplayListsView(lists_tasks)
         view.render()

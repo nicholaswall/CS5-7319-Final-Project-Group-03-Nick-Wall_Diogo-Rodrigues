@@ -9,7 +9,7 @@ class DisplayListsView(View):
 
     def render(self):
         for list in self.lists:
-            print("List: ", list.list.name)
+            print(list.list.name)
             for task in list.tasks:
                 description = ": " + str(task.description) if task.description else ""
-                print("--", task.title, description)
+                print(f"\t{task.title}{description}")
