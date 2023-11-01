@@ -7,10 +7,14 @@ from typing import List as ListType, Optional
 class Task:
     id: int
     title: str
-    desciption: str
+    description: str
     completed: bool
     list_id: int
-    parent_id: int
+    parent_id: Optional[int]
+
+    def __post_init__(self):
+        if self.parent_id == "NULL":
+            self.parent_id = None
 
 
 class TasksModel:
@@ -24,23 +28,29 @@ class TasksModel:
             + """ (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 title TEXT NOT NULL, 
-                description TEXT,
+                description TEXT NOT NULL,
                 completed BOOLEAN NOT NULL DEFAULT FALSE,
                 list_id INTEGER NOT NULL,
-                FOREIGN KEY(list_id) REFERENCES lists(id),
                 parent_id INTEGER,
+                FOREIGN KEY(list_id) REFERENCES lists(id),
                 FOREIGN KEY(parent_id) REFERENCES tasks(id)
                    )
             """
         )
-        print("Creating table: ", sql)
         self.cursor.execute(sql)
 
     def create(
-        self, title: str, description: str, list_id: int, parent_id: Optional[int]
+        self,
+        title: str,
+        description: Optional[str],
+        list_id: int,
+        parent_id: Optional[int],
     ) -> Task:
         if not parent_id:
             parent_id = "NULL"
+
+        if not description:
+            description = ""
 
         sql = (
             "INSERT INTO "
@@ -54,8 +64,8 @@ class TasksModel:
 
         return Task(*created_task)
 
-    def get_all(self) -> ListType[Task]:
-        sql = "SELECT * FROM " + self.table_name
+    def get_all_for_list(self, list_id: int) -> ListType[Task]:
+        sql = "SELECT * FROM " + self.table_name + " WHERE list_id = " + str(list_id)
         tasks = self.cursor.execute(sql).fetchall()
         con.commit()
 
@@ -66,6 +76,9 @@ class TasksModel:
         task = self.cursor.execute(sql).fetchone()
         con.commit()
 
+        if not task:
+            raise ValueError("No task with that id")
+
         return Task(*task)
 
     def get_by_title(self, title: str) -> Task:
@@ -73,8 +86,58 @@ class TasksModel:
         task = self.cursor.execute(sql).fetchone()
         con.commit()
 
+        if not task:
+            raise ValueError("No task with that title")
+
         return Task(*task)
 
     def delete(self, id: int) -> None:
         sql = "DELETE FROM " + self.table_name + " WHERE id = " + str(id)
         self.cursor.execute(sql)
+        con.commit()
+
+    def update_name(self, id: int, title: str) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET title = '"
+            + title
+            + "' WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def update_description(self, id: int, description: str) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET description = '"
+            + description
+            + "' WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def update_parent(self, id: int, parent_id: int) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET parent_id = "
+            + str(parent_id)
+            + " WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def toggle_completed(self, id: int) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET completed = NOT completed WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
