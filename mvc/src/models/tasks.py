@@ -76,6 +76,9 @@ class TasksModel:
         task = self.cursor.execute(sql).fetchone()
         con.commit()
 
+        if not task:
+            raise ValueError("No task with that id")
+
         return Task(*task)
 
     def get_by_title(self, title: str) -> Task:
@@ -83,8 +86,12 @@ class TasksModel:
         task = self.cursor.execute(sql).fetchone()
         con.commit()
 
+        if not task:
+            raise ValueError("No task with that title")
+
         return Task(*task)
 
     def delete(self, id: int) -> None:
         sql = "DELETE FROM " + self.table_name + " WHERE id = " + str(id)
         self.cursor.execute(sql)
+        con.commit()

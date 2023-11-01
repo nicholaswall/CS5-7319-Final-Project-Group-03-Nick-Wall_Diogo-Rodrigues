@@ -34,9 +34,9 @@ if __name__ == "__main__":
 
     # Create tasks
     create_task_parser = task_sub_parsers.add_parser("create", help="Create a new task")
-    # create_task_parser.add_argument("title", type=str, help="task title")
-    # create_task_parser.add_argument("description", type=str, help="task description")
-    # create_task_parser.add_argument("list_id", type=int, help="list id")
+
+    # Delete tasks
+    delete_task_parser = task_sub_parsers.add_parser("delete", help="Delete a task")
 
     # Toggle task completion
     toggle_task_parser = task_sub_parsers.add_parser(
@@ -56,6 +56,8 @@ if __name__ == "__main__":
         task_command = args.task_command
         if task_command == "create":
             TasksController().create()
+        elif task_command == "delete":
+            TasksController().delete()
         elif task_command == "toggle":
             print("Toggle task completion")
 
