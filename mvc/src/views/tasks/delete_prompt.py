@@ -1,6 +1,6 @@
 from mvc.src.prompter import Prompter
 from mvc.src.views.base import View
-from typing import Tuple, Optional
+from typing import Tuple
 
 
 class DeleteTaskPromptView(View):
@@ -9,6 +9,6 @@ class DeleteTaskPromptView(View):
             "Enter a task title to delete: ", required=True, input_type=str
         )
 
-    def render(self) -> Tuple[str, Optional[str]]:
+    def render(self) -> Tuple[str]:
         task_title = self.title_prompter.ask()
         return task_title

@@ -35,6 +35,9 @@ if __name__ == "__main__":
     # Create tasks
     create_task_parser = task_sub_parsers.add_parser("create", help="Create a new task")
 
+    # Edit tasks
+    edit_task_parser = task_sub_parsers.add_parser("edit", help="Edit a task")
+
     # Delete tasks
     delete_task_parser = task_sub_parsers.add_parser("delete", help="Delete a task")
 
@@ -56,6 +59,8 @@ if __name__ == "__main__":
         task_command = args.task_command
         if task_command == "create":
             TasksController().create()
+        elif task_command == "edit":
+            TasksController().edit()
         elif task_command == "delete":
             TasksController().delete()
         elif task_command == "toggle":

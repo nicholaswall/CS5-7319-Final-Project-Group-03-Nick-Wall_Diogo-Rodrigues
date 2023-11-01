@@ -95,3 +95,49 @@ class TasksModel:
         sql = "DELETE FROM " + self.table_name + " WHERE id = " + str(id)
         self.cursor.execute(sql)
         con.commit()
+
+    def update_name(self, id: int, title: str) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET title = '"
+            + title
+            + "' WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def update_description(self, id: int, description: str) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET description = '"
+            + description
+            + "' WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def update_parent(self, id: int, parent_id: int) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET parent_id = "
+            + str(parent_id)
+            + " WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
+
+    def toggle_completed(self, id: int) -> None:
+        sql = (
+            "UPDATE "
+            + self.table_name
+            + " SET completed = NOT completed WHERE id = "
+            + str(id)
+        )
+        self.cursor.execute(sql)
+        con.commit()
