@@ -1,6 +1,7 @@
 from mvc.src.models.lists import ListsModel, List
 from mvc.src.models.tasks import TasksModel
 from mvc.src.controllers.base import Controller
+from mvc.src.views.confirmation_prompt import ConformationPromptView
 from mvc.src.views.tasks.create_prompt import CreateTaskPromptView
 from typing import List as ListType
 from mvc.src.views.tasks.created import CreatedTaskView
@@ -35,11 +36,16 @@ class TasksController(Controller):
         if tasks:
             view = SelectParentTaskPromptView(tasks)
             parent_task_title = view.render()
-            parent_task_id = self.tasks_model.get_by_title(parent_task_title).id
+            if parent_task_title:
+                parent_task_id = self.tasks_model.get_by_title(parent_task_title).id
+
+        confirmation = ConformationPromptView().render()
+        if not confirmation:
+            return
 
         created_task = self.tasks_model.create(
             name, description, selected_list.id, parent_task_id
         )
 
-        view = CreatedTaskView(created_task)
+        view = CreatedTaskView(created_task, list_name, parent_task_title)
         view.render()

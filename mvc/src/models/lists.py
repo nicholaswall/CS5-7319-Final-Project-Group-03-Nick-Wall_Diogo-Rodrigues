@@ -1,12 +1,13 @@
-from mvc.src.db import con
+from mvc.src.db import con, sql_value
 from dataclasses import dataclass
-from typing import List as ListType
+from typing import List as ListType, Optional
 
 
 @dataclass
 class List:
     id: int
     name: str
+    description: str
 
 
 class ListsModel:
@@ -17,17 +18,20 @@ class ListsModel:
         sql = (
             "CREATE TABLE IF NOT EXISTS "
             + self.table_name
-            + " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"
+            + " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT NOT NULL)"
         )
         self.cursor.execute(sql)
 
-    def create(self, name: str) -> List:
+    def create(self, name: str, description: Optional[str]) -> List:
+        if not description:
+            description = ""
+
         sql = (
             "INSERT INTO "
             + self.table_name
-            + " (name) VALUES ('"
-            + name
-            + "') RETURNING *"
+            + " (name, description) VALUES "
+            + sql_value([name, description])
+            + " RETURNING *"
         )
         created_list = self.cursor.execute(sql).fetchone()
         con.commit()

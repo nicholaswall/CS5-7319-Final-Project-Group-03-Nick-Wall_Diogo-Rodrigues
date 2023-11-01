@@ -7,4 +7,6 @@ class CreatedListView(View):
         self.created_list = created_list
 
     def render(self):
-        print("Created list: ", self.created_list)
+        print("Created list: ")
+        print("\t", self.created_list.name)
+        print("\t", self.created_list.description)

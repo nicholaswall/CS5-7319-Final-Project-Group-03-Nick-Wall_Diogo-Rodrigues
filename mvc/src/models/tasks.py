@@ -10,7 +10,7 @@ class Task:
     description: str
     completed: bool
     list_id: int
-    parent_id: int
+    parent_id: Optional[int]
 
 
 class TasksModel:
@@ -24,7 +24,7 @@ class TasksModel:
             + """ (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 title TEXT NOT NULL, 
-                description TEXT,
+                description TEXT NOT NULL,
                 completed BOOLEAN NOT NULL DEFAULT FALSE,
                 list_id INTEGER NOT NULL,
                 parent_id INTEGER,
@@ -36,10 +36,17 @@ class TasksModel:
         self.cursor.execute(sql)
 
     def create(
-        self, title: str, description: str, list_id: int, parent_id: Optional[int]
+        self,
+        title: str,
+        description: Optional[str],
+        list_id: int,
+        parent_id: Optional[int],
     ) -> Task:
         if not parent_id:
             parent_id = "NULL"
+
+        if not description:
+            description = ""
 
         sql = (
             "INSERT INTO "

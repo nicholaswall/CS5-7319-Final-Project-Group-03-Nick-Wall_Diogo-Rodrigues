@@ -1,6 +1,7 @@
 from mvc.src.models.lists import ListsModel, List
 from mvc.src.models.tasks import TasksModel
 from mvc.src.controllers.base import Controller
+from mvc.src.views.confirmation_prompt import ConformationPromptView
 from mvc.src.views.lists.create_prompt import CreateListPromptView
 from mvc.src.views.lists.created import CreatedListView
 from mvc.src.views.lists.display_prompt import DisplayListPromptView
@@ -16,8 +17,11 @@ class ListsController(Controller):
 
     def create(self):
         view = CreateListPromptView()
-        name, _ = view.render()
-        created_list: List = self.lists_model.create(name)
+        name, description = view.render()
+        confirmation = ConformationPromptView().render()
+        if not confirmation:
+            return
+        created_list: List = self.lists_model.create(name, description)
         view = CreatedListView(created_list)
         view.render()
 
@@ -25,7 +29,7 @@ class ListsController(Controller):
         view = DisplayListPromptView()
         filter = view.render()
         lists: ListType[List] = self.lists_model.get_all()
-        if filter != "":
+        if filter:
             lists = [list for list in lists if filter in list.name]
         lists_tasks: ListType[ListTasks] = [
             ListTasks(list, self.tasks_model.get_all_for_list(list.id))
