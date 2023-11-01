@@ -12,6 +12,10 @@ class Task:
     list_id: int
     parent_id: Optional[int]
 
+    def __post_init__(self):
+        if self.parent_id == "NULL":
+            self.parent_id = None
+
 
 class TasksModel:
     def __init__(self):
