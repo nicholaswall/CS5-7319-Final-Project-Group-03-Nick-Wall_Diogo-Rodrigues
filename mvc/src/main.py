@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     # Toggle task completion
     toggle_task_parser = task_sub_parsers.add_parser(
-        "toggle", help="Toggle task completion"
+        "complete", help="Toggle task completion"
     )
 
     args = parser.parse_args()
@@ -63,8 +63,8 @@ if __name__ == "__main__":
             TasksController().edit()
         elif task_command == "delete":
             TasksController().delete()
-        elif task_command == "toggle":
-            print("Toggle task completion")
+        elif task_command == "complete":
+            TasksController().toggle_completion()
 
     # print("Hello world from mvc")
     # created_list = ListsModel().create("test")

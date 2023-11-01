@@ -3,6 +3,9 @@ from typing import List as ListType, Dict
 from mvc.src.models.list_tasks import ListTasks
 from mvc.src.models.tasks import Task
 
+COMPLETED_SYMBOL = "\u2713"
+INCOMPLETE_SYMBOL = "X"
+
 
 class DisplayListsView(View):
     def __init__(self, lists: ListType[ListTasks]):
@@ -26,7 +29,9 @@ class DisplayListsView(View):
 
             for task in root_tasks:
                 description = ": " + str(task.description) if task.description else ""
-                print(f"\t{task.title}{description}")
+                print(
+                    f"\t{task.title} [{COMPLETED_SYMBOL if task.completed else INCOMPLETE_SYMBOL}]{description}"
+                )
 
                 # Recursively print children
                 self.print_children(children, task.id)
@@ -42,6 +47,8 @@ class DisplayListsView(View):
         for task in children[task_id]:
             description = ": " + str(task.description) if task.description else ""
             tabs = "\t" * indent
-            print(f"{tabs}{task.title}{description}")
+            print(
+                f"{tabs}{task.title} [{COMPLETED_SYMBOL if task.completed else INCOMPLETE_SYMBOL}]{description}"
+            )
 
             self.print_children(children, task.id, indent + 1)

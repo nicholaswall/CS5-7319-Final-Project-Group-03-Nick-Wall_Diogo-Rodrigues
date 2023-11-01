@@ -14,6 +14,8 @@ from mvc.src.views.tasks.edited import EditedTaskView
 
 from mvc.src.views.tasks.select_list_prompt import SelectListPromptView
 from mvc.src.views.tasks.select_parent_task_prompt import SelectParentTaskPromptView
+from mvc.src.views.tasks.toggle_prompt import ToggleTaskPromptView
+from mvc.src.views.tasks.toggled import ToggledTaskView
 
 
 class TasksController(Controller):
@@ -167,8 +169,20 @@ class TasksController(Controller):
         )
         view.render()
 
-    def toggle(self):
-        pass
+    def toggle_completion(self):
+        view = ToggleTaskPromptView()
+        title = view.render()
+
+        task = self.tasks_model.get_by_title(title)
+
+        confirmation = ConformationPromptView().render()
+        if not confirmation:
+            return
+
+        self.tasks_model.toggle_completed(task.id)
+
+        view = ToggledTaskView(task)
+        view.render()
 
     def _compute_topology(
         self, tasks: ListType[Task]
