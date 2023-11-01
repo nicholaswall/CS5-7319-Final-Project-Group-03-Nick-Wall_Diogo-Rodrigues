@@ -13,7 +13,7 @@ class DisplayListsView(View):
 
     def render(self):
         for list in self.lists:
-            print(list.list.name)
+            print(f"{list.list.name}: {list.list.description}")
             children: Dict[int, ListType[Task]] = dict()
             root_tasks: ListType[Task] = []
             # Compute topology

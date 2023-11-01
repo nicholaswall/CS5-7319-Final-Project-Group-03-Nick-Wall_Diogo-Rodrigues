@@ -1,6 +1,5 @@
 from mvc.src.models.lists import ListsModel, List
 from mvc.src.models.tasks import TasksModel, Task
-from mvc.src.controllers.base import Controller
 from mvc.src.views.confirmation_prompt import ConformationPromptView
 from mvc.src.views.tasks.children_marked_for_delete import ChildrenMarkedForDeleteView
 from mvc.src.views.tasks.create_prompt import CreateTaskPromptView
@@ -18,7 +17,7 @@ from mvc.src.views.tasks.toggle_prompt import ToggleTaskPromptView
 from mvc.src.views.tasks.toggled import ToggledTaskView
 
 
-class TasksController(Controller):
+class TasksController:
     def __init__(self):
         self.lists_model = ListsModel()
         self.tasks_model = TasksModel()

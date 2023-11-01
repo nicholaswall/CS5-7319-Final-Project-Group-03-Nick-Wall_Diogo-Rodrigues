@@ -1,6 +1,5 @@
 from mvc.src.models.lists import ListsModel, List
 from mvc.src.models.tasks import TasksModel
-from mvc.src.controllers.base import Controller
 from mvc.src.views.confirmation_prompt import ConformationPromptView
 from mvc.src.views.lists.create_prompt import CreateListPromptView
 from mvc.src.views.lists.created import CreatedListView
@@ -10,7 +9,7 @@ from typing import List as ListType
 from mvc.src.models.list_tasks import ListTasks
 
 
-class ListsController(Controller):
+class ListsController:
     def __init__(self):
         self.lists_model = ListsModel()
         self.tasks_model = TasksModel()

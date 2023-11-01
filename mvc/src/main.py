@@ -65,9 +65,3 @@ if __name__ == "__main__":
             TasksController().delete()
         elif task_command == "complete":
             TasksController().toggle_completion()
-
-    # print("Hello world from mvc")
-    # created_list = ListsModel().create("test")
-    # print("Created list: ", created_list)
-    # lists = ListsModel().get_all()
-    # print("Lists: ", lists)
