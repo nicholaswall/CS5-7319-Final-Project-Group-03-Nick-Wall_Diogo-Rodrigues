@@ -9,7 +9,6 @@ class DisplayListsView(View):
         self.lists = lists
 
     def render(self):
-        # TODO: sort tasks and subtasks to display topologically
         for list in self.lists:
             print(list.list.name)
             children: Dict[int, ListType[Task]] = dict()
