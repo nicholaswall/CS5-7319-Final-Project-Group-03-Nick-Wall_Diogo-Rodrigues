@@ -8,7 +8,7 @@ class SelectParentTaskPromptView(View):
     def __init__(self, tasks: ListType[Task]):
         self.tasks = tasks
         self.prompter = Prompter(
-            "What is the parent task's title? (optional): ", False, str
+            "What is the parent task's title? (optional)", False, str
         )
 
     def render(self) -> Optional[str]:

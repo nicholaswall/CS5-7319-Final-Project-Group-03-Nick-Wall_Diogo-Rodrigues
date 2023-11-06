@@ -6,7 +6,7 @@ from Selected.src.prompter import Prompter
 class DisplayListPromptView(View):
     def __init__(self):
         self.prompter = Prompter(
-            "Enter a search to filter by (leave empty for no filter): ",
+            "Enter a search to filter by (leave empty for no filter)",
             required=False,
             input_type=str,
         )

@@ -11,7 +11,7 @@ class Prompter:
         input_type: Type[T] = str,
         validation_func: Optional[Callable[[T], bool]] = None,
     ):
-        self.model = prompt
+        self.prompt = prompt
         self.required = required
         self.input_type = input_type
         self.validation_func = validation_func
@@ -26,7 +26,7 @@ class Prompter:
         """
 
         while True:
-            user_input = input(self.model + ": ")
+            user_input = input(self.prompt + ": ")
             if user_input == "" and self.required:
                 print("You must enter a value")
                 continue

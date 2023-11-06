@@ -7,7 +7,7 @@ from Selected.src.models.lists import List
 class SelectListPromptView(View):
     def __init__(self, lists: ListType[List]):
         self.lists = lists
-        self.prompter = Prompter("What list should this task belong to?: ", True, str)
+        self.prompter = Prompter("What list should this task belong to?", True, str)
 
     def render(self) -> str:
         print("Available lists:")
