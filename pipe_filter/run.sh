@@ -1,1 +1,0 @@
-poetry run python pipe_filter/src/main.py
