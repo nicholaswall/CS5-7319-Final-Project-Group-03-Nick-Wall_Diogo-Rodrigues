@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Selected.src.db import con
+from Unselected.src.db import con
 
 CURSOR = con.cursor()
 LIST_TABLE_NAME = "lists"
